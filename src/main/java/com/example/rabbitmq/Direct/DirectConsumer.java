@@ -18,7 +18,7 @@ public class DirectConsumer {
             // Khai báo exchange và queue
             channel.exchangeDeclare("EXCHANGE_NAME", "direct", true, false, null);
             channel.queueDeclare(QUEUE_NAME, true, false, false, null);
-            channel.queueBind(QUEUE_NAME, "EXCHANGE_NAME", ROUTING_KEY);
+            channel.queueBind(QUEUE_NAME, EXCHANGE_NAME, ROUTING_KEY);
 
             System.out.println(" [*] Waiting for messages. To exit press CTRL+C");
 
@@ -29,6 +29,7 @@ public class DirectConsumer {
             DeliverCallback deliverCallback = (consumerTag, delivery) -> {
                 String message = new String(delivery.getBody(), "UTF-8");
                 System.out.println(" [x] Received '" + message + "'");
+                channel.basicAck(delivery.getEnvelope().getDeliveryTag(), false);
             };
             channel.basicConsume(QUEUE_NAME, true, deliverCallback, consumerTag -> { });
 
