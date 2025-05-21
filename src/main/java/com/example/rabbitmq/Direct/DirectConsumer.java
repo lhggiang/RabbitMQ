@@ -16,7 +16,7 @@ public class DirectConsumer {
              Channel channel = connection.createChannel()) {
 
             // Khai báo exchange và queue
-            channel.exchangeDeclare("EXCHANGE_NAME", "direct", true, false, null);
+            channel.exchangeDeclare(EXCHANGE_NAME, "direct", true, false, null);
             channel.queueDeclare(QUEUE_NAME, true, false, false, null);
             channel.queueBind(QUEUE_NAME, EXCHANGE_NAME, ROUTING_KEY);
 
